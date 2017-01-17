@@ -1,49 +1,233 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    
+   <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <script type="text/javascript" src="cordova.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+
+   
+    <script type="text/javascript" charset="utf-8">
+        
+        function onGame() {
+            
+        var beta_version = "1.1.1";
+            StatusBar.hide();
+            document.addEventListener("pause", onPause, false);
+            document.addEventListener("resume", onGame, false);
+
+            //canvas
+            var canvas = document.getElementById('canvas');
+			canvas.addEventListener('touchstart', paint_cell2, false);
+			canvas.addEventListener('touchend', paint_cell3, false);
+									 
+            var ctx = canvas.getContext("2d");
+			
+            
+            //pobranie rozdzielczości z urządzenia !!!!
+
+            
+        
+            ctx.canvas.width  = window.screen.availWidth;
+            ctx.canvas.height = window.screen.availHeight;
+            var w = canvas.width;
+            var h = canvas.height;
+               
+          
+			
+           
+			
+            var cw = 20; 
+            var d, food, score, snake_array; 
+			
+            function init() {
+				
+                d = "down"; 
+                create_snake();
+                create_food(); 
+                score = 0;
+
+                if (typeof game_loop != "undefined") {
+                    clearInterval(game_loop);
+                }
+                watchUserEvents();
+
+                game_loop = setInterval(paint, 200); // '200' czas reakcji = szybkosc ruchu
+            }
+            init();
+        
+            function create_snake() {
+                var length = 7; // dlugosc poczatkowa weza
+                snake_array = []; // pusta tablica na start
+                for (var i = length - 1; i >= 0; i--) {
+                    
+                    snake_array.push({x: i, y: 0});
+                }
+            }
+
+            // funkcja tworzy jedzenie
+            function create_food() {
+                food = {
+                    x: Math.round(Math.random() * (w - cw) / cw),
+                    y: Math.round(Math.random() * (h - cw) / cw)
+                };
+            }
+
+            // kolorowanie
+            function paint() {
+				var my_gradient=ctx.createLinearGradient(0,0,w,h);
+                                my_gradient.addColorStop(0,'#e6f58e');
+                                my_gradient.addColorStop(1,'#82a908');
+                ctx.fillStyle=my_gradient;
+
+				ctx.fillRect(0, 0, w, h);
+                
+                ctx.strokeRect(0, 0, w, h);
+
+                var nx = snake_array[0].x;
+                var ny = snake_array[0].y;
+            
+                if (d == "right") nx++;
+                else if (d == "left") nx--;
+                else if (d == "up") ny--;
+                else if (d == "down") ny++;
+
+                if (nx == -1 || nx == w / cw || ny == -1 || ny == h / cw || check_collision(nx, ny, snake_array)) {
+                // restart
+                    init();
+                    return;
+                }
+
+                //po zjedzeniu
+                if (nx == food.x && ny == food.y) {
+                    var tail = {x: nx, y: ny};
+                    score++;
+                    navigator.vibrate(100);
+                                  //new
+                    create_food();
+                }
+                else {
+                    var tail = snake_array.pop(); 
+                    tail.x = nx;
+                    tail.y = ny;
+                }
+                snake_array.unshift(tail); 
+
+                for (var i = 0; i < snake_array.length; i++) {
+                    var c = snake_array[i];
+                    paint_cell(c.x, c.y, "green");
+                }
+
+                paint_cell(food.x, food.y, "Red");
+                var score_text = "Score: " + score;
+                
+                ctx.font="20px Arial";
+               // ctx.fillText(score_text, 20, 20);
+                
+                ctx.fillText(w, 20, 20);
+                ctx.fillText(nx, 20, 40);
+                ctx.fillText(h, 20, 60);
+                ctx.fillText(ny, 20, 80);
+                
+                ctx.fillText(score_text, 10, h-10);
+        }
+
+
+            function paint_cell(x, y, color) {
+                ctx.fillStyle = color;
+                ctx.fillRect(x * cw, y * cw, cw, cw);
+                ctx.strokeStyle = "white";
+                ctx.strokeRect(x * cw, y * cw, cw, cw);
+                
+            }
+			function paint_cell2(e)
+			{
+				
+			setInterval(paint, 150);          
+			}
+			function paint_cell3(e)
+			{
+				setInterval(paint, 250);  
+			      
+			}
+
+            function check_collision(x, y, array) {
+                
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i].x == x && array[i].y == y)
+                        return true;
+                       
+                        
+                }
+                return false;
+            }
+
+         
+            function watchUserEvents() {
+
+                var options = { frequency: 200 };
+                watchID = navigator.accelerometer.watchAcceleration(onAccSuccess, onAccError, options);
+	
+            }
+           
+            function stopWatchUserEvents() {
+                if (watchID) {
+                    navigator.accelerometer.clearWatch(watchID);
+                    watchID = null;
+                }
+            }
+
+
+            function onAccSuccess(acceleration) {
+                var x_current = acceleration.x;
+                var y_current = acceleration.y;
+                var z_current = acceleration.z;
+
+                var time_stamp = acceleration.timestamp;
+
+                var lastDirection = d;
+
+                var x_abs = Math.abs(x_current);
+                var y_abs = Math.abs(y_current);
+
+                if (x_abs > y_abs) {
+                    if (Math.round(x_current) < 1){
+                        if (d!= "left") { d = "right"; }
+                    } else {
+                        if (d!= "right") {d = "left"; }}
+
+                } else { // main else
+                    if (Math.round(y_current) < 1){
+                            if (d!= "down") { d = "up"; }
+                    }  else {
+                            if (d!= "up") { d = "down" ; }
+                    }                 
+                }
+
+            } //onACSUKCES
+
+            function onAccError() {
+                alert('onError!');
+            }
+        }
+		
+        function onPause() {
+        }
+       
+        function onLoad() {
+            onGame();
+        }
+
+    </script>
+
+    <title>Snake App</title>
+</head>
+
+<body onload="onLoad()" >
+    <canvas id="canvas" ></canvas>
+    
+</body>
+
 </html>

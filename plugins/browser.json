@@ -1,0 +1,36 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-screensize": {
+            "PACKAGE_NAME": "soobeq.game-snake"
+        }
+    },
+    "dependent_plugins": {}
+}
