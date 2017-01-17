@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "397168984425",
+    "firebase_url": "https://gamesnake-df327.firebaseio.com",
+    "project_id": "gamesnake-df327",
+    "storage_bucket": "gamesnake-df327.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397168984425:android:9d65513dfd5ba641",
+        "android_client_info": {
+          "package_name": "com.GameSnake"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397168984425-6fc8ttcqhl110n9mqh7eesopg60ug9cb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

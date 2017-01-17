@@ -127,6 +127,14 @@ module.exports = [
         "id": "cordova-plugin-screensize.ScreenSizeProxy",
         "pluginId": "cordova-plugin-screensize",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-firebase/www/firebase-browser.js",
+        "id": "cordova-plugin-firebase.FirebasePlugin",
+        "pluginId": "cordova-plugin-firebase",
+        "clobbers": [
+            "FirebasePlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -139,7 +147,8 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.2.1",
     "cordova-plugin-device-orientation": "1.0.5",
     "cordova-plugin-dialogs": "1.3.1",
-    "cordova-plugin-screensize": "1.3.1"
+    "cordova-plugin-screensize": "1.3.1",
+    "cordova-plugin-firebase": "0.1.18"
 }
 // BOTTOM OF METADATA
 });

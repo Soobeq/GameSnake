@@ -30,6 +30,9 @@
         },
         "cordova-plugin-screensize": {
             "PACKAGE_NAME": "soobeq.game-snake"
+        },
+        "cordova-plugin-firebase": {
+            "PACKAGE_NAME": "soobeq.game-snake"
         }
     },
     "dependent_plugins": {}
