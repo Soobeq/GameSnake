@@ -30,6 +30,9 @@
         },
         "cordova-plugin-firebase": {
             "PACKAGE_NAME": "soobeq.game_snake"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "soobeq.game_snake"
         }
     },
     "dependent_plugins": {}

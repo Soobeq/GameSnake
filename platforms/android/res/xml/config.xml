@@ -27,6 +27,9 @@
         <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
     <name>Game Snake</name>
     <description>
         description
@@ -43,7 +46,8 @@
     <preference name="webviewbounce" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="1000" />
+    <preference name="SplashScreenDelay" value="5000" />
+    <preference name="FadeSplashScreen" value="true" />
     <preference name="AutoHideSplashScreen" value="true" />
     <preference name="EnableViewportScale" value="true" />
     <preference name="Orientation" value="landscape" />

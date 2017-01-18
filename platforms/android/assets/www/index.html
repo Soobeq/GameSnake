@@ -30,8 +30,17 @@
    
     <script type="text/javascript" charset="utf-8">
         
+function dead() {
+        alert('You are lose ! Pull down and tap ok to start !');
+        
+        }
+function ready() {
+        alert('Game is ready ! Pull down and tap ok to start !');
+        
+        }
 
         function onGame() {
+            
 
                     function writeUserData(userId, name, email, imageUrl) {
             firebase.database().ref('users/' + userId).set({
@@ -50,6 +59,10 @@
             var canvas = document.getElementById('canvas');
 			canvas.addEventListener('touchstart', turbo, false);
 			canvas.addEventListener('touchend', turbo_stop, false);
+            document.addEventListener("dead", dead, false);
+            document.addEventListener("ready", ready, false);
+           // document.addEventListener("offline", onOffline, false);
+            //document.addEventListener("online", onOnline, false);
 									 
             var ctx = canvas.getContext("2d");
 			
@@ -77,12 +90,13 @@
 			
            
 			
-            var cw = 40; 
+            var cw = 80; 
             var d, food, score, snake_array; 
+   
 			
             function init() {
 				
-                d = "down"; 
+                d = "right"; 
                 create_snake();
                 create_food(); 
                 score = 0;
@@ -91,11 +105,14 @@
                     clearInterval(game_loop);
                 }
                 watchUserEvents();
-
+               
                 game_loop = setInterval(paint, 200); // '200' czas reakcji = szybkosc ruchu
             }
-            init();
+ 
         
+            
+            init();
+            
             function create_snake() {
                 var length = 7; // dlugosc poczatkowa weza
                 snake_array = []; // pusta tablica na start
@@ -133,9 +150,13 @@
                 else if (d == "down") ny++;
                        
                 if (nx == -1 || nx == w / cw || ny == -1 || ny == h / cw || check_collision(nx, ny, snake_array)) {
-                // restart
-                    init();
+                              
+                
+                              
+                 init();
+                 dead();
                     return;
+                 
                 }
 
                 //po zjedzeniu
@@ -144,6 +165,7 @@
                     score++;
                     navigator.vibrate(100);
                     create_food();
+                    
                     
                 }
                 else {
@@ -187,7 +209,7 @@
                 if (typeof game_loop != "undefined") {
                     clearInterval(game_loop);
                 }
-                watchUserEvents2();
+               
 
                 game_loop = setInterval(paint, 80); // '200' czas reakcji = szybkosc ruchu
               
@@ -198,21 +220,23 @@
                 if (typeof game_loop != "undefined") {
                     clearInterval(game_loop);
                 }
-                watchUserEvents();
+              
 
                 game_loop = setInterval(paint, 200); // '200' czas reakcji = szybkosc ruchu
 			
 			}
+            
 
             function check_collision(x, y, array) {
                 
                 for (var i = 0; i < array.length; i++) {
                     if (array[i].x == x && array[i].y == y)
                         return true;
-                       
-                        
+                         
+                 
                 }
                 return false;
+                
             }
 
          
@@ -263,23 +287,6 @@
                     }                 
                 }
                 
-
-/*
-if (x_abs > y_abs) {
-                    if (Math.round(x_current) < 1){
-                        if (d!= "left") { d = "right"; }
-                    } else {
-                        if (d!= "right") {d = "left"; }}
-
-                } else { // main else
-                    if (Math.round(y_current) < 1){
-                            if (d!= "down") { d = "up"; }
-                    }  else {
-                            if (d!= "up") { d = "down" ; }
-                    }                 
-                }*/
-
-
             } //onACSUKCES
 
             function onAccError() {
@@ -292,10 +299,23 @@ if (x_abs > y_abs) {
        
         function onLoad() {
             onGame();
-            ctx.font="40px Arial";
-                ctx.fillText(x_abs, 50, 20);
-                ctx.fillText(y_abs, 50, 40);
+            
         }
+       
+        
+       /* function onOffline() {
+        alert('You are now offline!');
+        navigator.splashscreen.hide();
+        }*/
+
+        /*function onOnline() {
+        
+        alert('You are now online!');
+        navigator.splashscreen.hide();
+        }*/
+
+
+
 
     </script>
 
@@ -304,7 +324,7 @@ if (x_abs > y_abs) {
 
 <body onload="onLoad()" >
     <canvas id="canvas" ></canvas>
-    
+<!--button id = "networkInfo" style="font-size: 80px; visibility: hidden;">INFO</button-->
 </body>
 
 </html>
