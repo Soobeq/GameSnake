@@ -15,29 +15,115 @@
     <script type="text/javascript" src="cordova.js"></script>
     <link rel="stylesheet" type="text/css" href="css/index.css"/>
         
-        <script src="js/firebase.js"></script>
-            <script>
-            // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyCvj69P5erqU23o6Q-G3UzkjFWW1jFLv5o",
-                authDomain: "gamesnake-df327.firebaseapp.com",
-                databaseURL: "https://gamesnake-df327.firebaseio.com",
-                storageBucket: "gamesnake-df327.appspot.com",
-                messagingSenderId: "397168984425"
-            };
-            firebase.initializeApp(config);
-            </script>
+<!--script src="https://www.gstatic.com/firebasejs/3.6.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCyl_GQBVyoSfCep4IrLbD8ip0eMb54QE0",
+    authDomain: "snake-8857f.firebaseapp.com",
+    databaseURL: "https://snake-8857f.firebaseio.com",
+    storageBucket: "snake-8857f.appspot.com",
+    messagingSenderId: "947014184675"
+  };
+  firebase.initializeApp(config);
+
+  function FriendlyChat() {
+    this.checkSetup();
+
+    // Shortcuts to DOM Elements.
+    this.messageList = document.getElementById('messages');
+    this.messageForm = document.getElementById('message-form');
+    this.messageInput = document.getElementById('message');
+    this.submitButton = document.getElementById('submit');
+    this.submitImageButton = document.getElementById('submitImage');
+    this.imageForm = document.getElementById('image-form');
+    this.mediaCapture = document.getElementById('mediaCapture');
+    this.userPic = document.getElementById('user-pic');
+    this.userName = document.getElementById('user-name');
+    this.signInButton = document.getElementById('sign-in');
+    this.signOutButton = document.getElementById('sign-out');
+    this.signInSnackbar = document.getElementById('must-signin-snackbar');
+
+    // Saves message on form submit.
+    this.messageForm.addEventListener('submit', this.saveMessage.bind(this));
+    this.signOutButton.addEventListener('click', this.signOut.bind(this));
+    this.signInButton.addEventListener('click', this.signIn.bind(this));
+
+    // Toggle for the button.
+    var buttonTogglingHandler = this.toggleButton.bind(this);
+    this.messageInput.addEventListener('keyup', buttonTogglingHandler);
+    this.messageInput.addEventListener('change', buttonTogglingHandler);
+
+    // Events for image upload.
+    this.submitImageButton.addEventListener('click', function () {
+        this.mediaCapture.click();
+    }.bind(this));
+    this.mediaCapture.addEventListener('change', this.saveImageMessage.bind(this));
+
+    this.initFirebase();
+}
+
+// Sets up shortcuts to Firebase features and initiate firebase auth.
+FriendlyChat.prototype.initFirebase = function () {
+    // TODO(DEVELOPER): Initialize Firebase.
+    // Shortcuts to Firebase SDK features.
+    this.auth = firebase.auth();
+    this.database = firebase.database();
+    this.storage = firebase.storage();
+    // Initiates Firebase auth and listen to auth state changes.
+    this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
+};
+
+// Loads chat messages history and listens for upcoming ones.
+FriendlyChat.prototype.loadMessages = function () {
+    // Reference to the /messages/ database path.
+    this.messagesRef = this.database.ref('messages');
+    // Make sure we remove all previous listeners.
+    this.messagesRef.off();
+    // Loads the last 12 messages and listen for new ones.
+    var setMessage = function (data) {
+        var val = data.val();
+        this.displayMessage(data.key, val.name, val.text, val.photoUrl, val.imageUrl);
+    }.bind(this);
+    this.messagesRef.limitToLast(12).on('child_added', setMessage);
+    this.messagesRef.limitToLast(12).on('child_changed', setMessage);
+};
+
+// Saves a new message on the Firebase DB.
+FriendlyChat.prototype.saveMessage = function (e) {
+    e.preventDefault();
+    // Check that the user entered a message and is signed in.
+    if (this.messageInput.value && this.checkSignedInWithMessage()) {
+        var currentUser = this.auth.currentUser;
+        // Add a new message entry to the Firebase Database.
+        this.messagesRef.push({
+            name: currentUser.displayName,
+            text: this.messageInput.value,
+            photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
+        }).then(function () {
+            // Clear message text field and SEND button state.
+            FriendlyChat.resetMaterialTextfield(this.messageInput);
+            this.toggleButton();
+        }.bind(this)).catch(function (error) {
+            console.error('Error writing new message to Firebase Database', error);
+        });
+    }
+};
+
+</script-->
+        
    
     <script type="text/javascript" charset="utf-8">
         
-function dead() {
-        alert('You are lose ! Pull down and tap ok to start !');
-        
-        }
-function ready() {
-        alert('Game is ready ! Pull down and tap ok to start !');
-        
-        }
+        function dead() {
+                alert('You are lose ! Pull down and tap ok to start !');
+                
+                
+                }
+        function ready() {
+                alert('Game is ready ! Pull down and tap ok to start !');
+                
+                }
 
         function onGame() {
             
